@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XT Community</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    /* Tela de introdução */
+    #intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #333, #000);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      z-index: 1000;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      touch-action: none;
+    }
+    /* Área principal após introdução */
+    #main {
+      display: none;
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+      background: #f4f4f4;
+      color: #333;
+      overflow-y: auto;
+    }
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 1.2rem;
+      color: #fff;
+      background-color: #333;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .button:hover {
+      background-color: #555;
+    }
+    /* Container para as redes sociais */
+    #socials {
+      margin-top: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #socials a {
+      color: #333;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    #socials a:hover {
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tela de introdução -->
+  <div id="intro">XT Community</div>
+
+  <!-- Conteúdo principal -->
+  <div id="main">
+    <h1>Bem-vindo à XT Community</h1>
+    <div>
+      <button id="btnSocial" class="button">Nossas redes sociais</button>
+      <a href="https://forms.gle/wcfTiMh4q94tZb8fA" class="button" target="_blank">Entrar no time</a>
+    </div>
+    <div id="socials">
+      <a href="https://www.twitch.tv/xt_xyter" target="_blank">Twitch</a>
+      <a href="https://www.instagram.com/xt_xyter?igsh=MW5mczhhanQyejdtcg==" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@xt.xyter?_t=ZM-8uqVIVxzuLd&_r=1" target="_blank">TikTok</a>
+    </div>
+  </div>
+
+  <script>
+    // Variáveis para detecção do "swipe" para cima
+    let startY = 0;
+    let threshold = 50; // distância mínima para detectar o swipe
+
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+
+    // Para dispositivos touch
+    intro.addEventListener("touchstart", function(e) {
+      startY = e.touches[0].clientY;
+    }, false);
+
+    intro.addEventListener("touchmove", function(e) {
+      let currentY = e.touches[0].clientY;
+      let diffY = startY - currentY;
+      if (diffY > threshold) {
+        // Aplicar animação de saída
+        intro.style.transform = "translateY(-100%)";
+        intro.style.opacity = "0";
+        setTimeout(() => {
+          intro.style.display = "none";
+          main.style.display = "block";
+          document.body.style.overflow = "auto";
+        }, 600);
+      }
+    }, false);
+
+    // Para dispositivos com mouse (simula o arrastar com o clique)
+    let isMouseDown = false;
+    intro.addEventListener("mousedown", function(e) {
+      startY = e.clientY;
+      isMouseDown = true;
+    });
+    intro.addEventListener("mousemove", function(e) {
+      if (!isMouseDown) return;
+      let currentY = e.clientY;
+      let diffY = startY - currentY;
+      if (diffY > threshold) {
+        intro.style.transform = "translateY(-100%)";
+        intro.style.opacity = "0";
+        setTimeout(() => {
+          intro.style.display = "none";
+          main.style.display = "block";
+          document.body.style.overflow = "auto";
+        }, 600);
+      }
+    });
+    intro.addEventListener("mouseup", function() {
+      isMouseDown = false;
+    });
+    intro.addEventListener("mouseleave", function() {
+      isMouseDown = false;
+    });
+
+    // Alterna exibição das redes sociais
+    const btnSocial = document.getElementById("btnSocial");
+    const socials = document.getElementById("socials");
+    btnSocial.addEventListener("click", function() {
+      if (socials.style.display === "flex") {
+        socials.style.display = "none";
+      } else {
+        socials.style.display = "flex";
+      }
+    });
+  </script>
+</body>
+</html>
