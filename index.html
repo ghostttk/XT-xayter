@@ -16,7 +16,18 @@
       height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow: hidden;
-      background: #f4f4f4;
+    }
+    /* Fundo compartilhado entre todas as telas */
+    .background {
+      background: linear-gradient(135deg, #808080, #2e004f);
+    }
+    /* Canvas para efeito de neve */
+    #snow-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
     }
     /* Tela de introdução */
     #intro {
@@ -25,15 +36,37 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #333, #000);
+      background: inherit;
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       font-size: 3rem;
       z-index: 1000;
       transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
       touch-action: none;
+    }
+    /* Seta para arrastar para cima */
+    #swipe-arrow {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid #fff;
+      animation: bounce 1s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-10px);
+      }
     }
     /* Área principal */
     #main {
@@ -42,7 +75,7 @@
       width: 100%;
       overflow: hidden;
     }
-    /* Telas internas */
+    /* Telas internas com fundo compartilhado */
     .screen {
       width: 100%;
       height: 100%;
@@ -53,7 +86,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      background: #f4f4f4;
+      background: inherit;
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .hidden {
@@ -68,7 +101,7 @@
     }
     h1 {
       margin-bottom: 40px;
-      color: #333;
+      color: #fff;
     }
     .button {
       display: inline-block;
@@ -113,9 +146,15 @@
     }
   </style>
 </head>
-<body>
+<body class="background">
+  <!-- Canvas para efeito de neve -->
+  <canvas id="snow-canvas"></canvas>
+
   <!-- Tela de introdução -->
-  <div id="intro">XT Community</div>
+  <div id="intro">
+    XT Community
+    <div id="swipe-arrow"></div>
+  </div>
 
   <!-- Conteúdo principal -->
   <div id="main">
@@ -136,6 +175,65 @@
   </div>
 
   <script>
+    // Configuração do efeito de neve
+    const canvas = document.getElementById("snow-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    const snowflakes = [];
+    const maxSnowflakes = 80; // Efeito sutil
+
+    for (let i = 0; i < maxSnowflakes; i++) {
+      snowflakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 1,
+        speed: Math.random() * 0.5 + 0.5,
+        wind: Math.random() * 0.5 - 0.25
+      });
+    }
+
+    function updateSnowflakes() {
+      for (let flake of snowflakes) {
+        flake.y += flake.speed;
+        flake.x += flake.wind;
+        if (flake.y > canvas.height) {
+          flake.y = -flake.radius;
+          flake.x = Math.random() * canvas.width;
+        }
+        if (flake.x > canvas.width) {
+          flake.x = 0;
+        }
+        if (flake.x < 0) {
+          flake.x = canvas.width;
+        }
+      }
+    }
+
+    function drawSnowflakes() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255,255,255,0.6)";
+      ctx.beginPath();
+      for (let flake of snowflakes) {
+        ctx.moveTo(flake.x, flake.y);
+        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+      }
+      ctx.fill();
+    }
+
+    function animateSnow() {
+      updateSnowflakes();
+      drawSnowflakes();
+      requestAnimationFrame(animateSnow);
+    }
+    animateSnow();
+
     // Variáveis para detecção do swipe na tela de introdução
     let startY = 0;
     const threshold = 50;
@@ -193,7 +291,6 @@
     const socialScreen = document.getElementById("socialScreen");
 
     btnSocial.addEventListener("click", function() {
-      // Transição para a tela de redes sociais
       menuScreen.classList.remove("visible");
       menuScreen.classList.add("hidden");
       socialScreen.classList.remove("hidden");
@@ -201,7 +298,6 @@
     });
 
     btnBack.addEventListener("click", function() {
-      // Retorna para a tela de menu
       socialScreen.classList.remove("visible");
       socialScreen.classList.add("hidden");
       menuScreen.classList.remove("hidden");
