@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XT Community</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ghostttk/XT-xayter/refs/heads/main/XT%20Community.png" type="image/png">
-  <!-- Usando a stack de fontes do sistema para um visual clean -->
+  <!-- Usando a stack de fontes do sistema para um visual clean (ex: San Francisco, Segoe UI, etc.) -->
   <style>
     * {
       margin: 0;
@@ -22,20 +22,13 @@
     .background {
       background: linear-gradient(135deg, #000000, #330000);
     }
-    /* Canvas para efeito minimalista de partículas */
+    /* Canvas para efeito minimalista de partículas vermelhas */
     #effect-canvas {
       position: fixed;
       top: 0;
       left: 0;
       pointer-events: none;
       z-index: -1;
-    }
-    /* Geral - textos com letras pretas e contorno branco */
-    .outlined {
-      color: black;
-      -webkit-text-stroke: 1px white;
-      /* fallback para navegadores que não suportam */
-      text-shadow: 1px 1px 1px white;
     }
     /* Tela de introdução */
     #intro {
@@ -45,6 +38,7 @@
       width: 100%;
       height: 100%;
       background: inherit;
+      color: #ff0000;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,7 +48,7 @@
       transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
       touch-action: none;
     }
-    /* Seta para indicar o swipe (em vermelho) */
+    /* Seta para indicar o swipe */
     #swipe-arrow {
       position: absolute;
       bottom: 20px;
@@ -104,8 +98,9 @@
     }
     h1 {
       margin-bottom: 40px;
+      color: #ff0000;
     }
-    /* Botões com borda e texto outlined */
+    /* Botões padrão */
     .button {
       display: inline-block;
       width: 250px;
@@ -113,6 +108,7 @@
       margin: 10px 0;
       font-size: 1.2rem;
       text-align: center;
+      color: #ff0000;
       background-color: transparent;
       border: 2px solid #ff0000;
       border-radius: 30px;
@@ -120,14 +116,9 @@
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s ease;
     }
-    .button.outlined {
-      color: black;
-      -webkit-text-stroke: 1px white;
-      text-shadow: 1px 1px 1px white;
-    }
     .button:hover {
       background-color: #ff0000;
-      color: black;
+      color: #000000;
       transform: scale(1.02);
     }
     /* Formulário – visual clean e sofisticado */
@@ -156,23 +147,23 @@
       outline: none;
       border-color: #ff0000;
     }
-    /* Redes sociais */
+    /* Redes Sociais – aparência aprimorada */
     .social-link {
       display: block;
       width: 250px;
-      color: #fff;
+      color: #ffffff;
       text-decoration: none;
       font-size: 1rem;
-      padding: 10px 0;
+      padding: 12px 0;
       border-radius: 30px;
-      background-color: #333;
-      transition: background 0.3s ease, transform 0.2s ease;
-      text-align: center;
-      margin: 5px 0;
+      background: linear-gradient(135deg, #ff0000, #990000);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      margin: 8px 0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .social-link:hover {
-      background-color: #555;
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
     }
     .back-btn {
       margin-top: 30px;
@@ -184,32 +175,32 @@
 <body class="background">
   <!-- Canvas para efeito minimalista de partículas -->
   <canvas id="effect-canvas"></canvas>
-
+  
   <!-- Tela de introdução -->
-  <div id="intro" class="outlined">
+  <div id="intro">
     XT Community
     <div id="swipe-arrow"></div>
   </div>
-
+  
   <!-- Conteúdo principal -->
   <div id="main">
     <!-- Tela de Menu -->
     <div id="menuScreen" class="screen visible">
-      <h1 class="outlined">Bem-vindo à XT Community</h1>
-      <button id="btnSocial" class="button outlined">Nossas redes sociais</button>
-      <button id="btnTeam" class="button outlined">Entrar no time</button>
+      <h1>Bem-vindo à XT Community</h1>
+      <button id="btnSocial" class="button">Nossas redes sociais</button>
+      <button id="btnTeam" class="button">Entrar no time</button>
     </div>
     <!-- Tela de Redes Sociais -->
     <div id="socialScreen" class="screen hidden">
-      <h1 class="outlined">Nossas Redes Sociais</h1>
+      <h1>Nossas Redes Sociais</h1>
       <a href="https://www.twitch.tv/xt_xyter" class="social-link" target="_blank">Twitch</a>
       <a href="https://www.instagram.com/xt_xyter?igsh=MW5mczhhanQyejdtcg==" class="social-link" target="_blank">Instagram</a>
       <a href="https://www.tiktok.com/@xt.xyter?_t=ZM-8uqVIVxzuLd&_r=1" class="social-link" target="_blank">TikTok</a>
-      <button id="btnSocialBack" class="button back-btn outlined">Voltar</button>
+      <button id="btnSocialBack" class="button back-btn">Voltar</button>
     </div>
     <!-- Tela do Formulário de Equipe -->
     <div id="teamScreen" class="screen hidden">
-      <h1 class="outlined">Entre no Time</h1>
+      <h1>Entre no Time</h1>
       <form id="teamForm">
         <label for="name">Nome Completo:</label>
         <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
@@ -234,27 +225,27 @@
         <label for="source">Como conheceu o XT Community?</label>
         <input type="text" id="source" name="source" placeholder="Ex: indicação, redes sociais" required>
         
-        <button type="submit" class="button outlined">Enviar</button>
+        <button type="submit" class="button">Enviar</button>
       </form>
-      <button id="btnTeamBack" class="button back-btn outlined">Voltar</button>
+      <button id="btnTeamBack" class="button back-btn">Voltar</button>
     </div>
   </div>
-
+  
   <script>
     // Efeito minimalista: partículas vermelhas sutis
     const canvas = document.getElementById("effect-canvas");
     const ctx = canvas.getContext("2d");
-
+    
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
-
+    
     const particles = [];
     const maxParticles = 20;
-
+    
     for (let i = 0; i < maxParticles; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -264,7 +255,7 @@
         speedY: Math.random() * 0.3 - 0.15
       });
     }
-
+    
     function updateParticles() {
       for (let p of particles) {
         p.x += p.speedX;
@@ -273,7 +264,7 @@
         if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
       }
     }
-
+    
     function drawParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ff0000";
@@ -283,20 +274,20 @@
         ctx.fill();
       }
     }
-
+    
     function animateParticles() {
       updateParticles();
       drawParticles();
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
-
+    
     // Detecção do swipe na tela de introdução
     let startY = 0;
     const threshold = 50;
     const intro = document.getElementById("intro");
     const main = document.getElementById("main");
-
+    
     function hideIntro() {
       intro.style.transform = "translateY(-100%)";
       intro.style.opacity = "0";
@@ -306,27 +297,22 @@
         document.body.style.overflow = "auto";
       }, 800);
     }
-
-    intro.addEventListener("touchstart", function(e) {
-      startY = e.touches[0].clientY;
-    }, false);
-    intro.addEventListener("touchmove", function(e) {
+    
+    intro.addEventListener("touchstart", e => { startY = e.touches[0].clientY; }, false);
+    intro.addEventListener("touchmove", e => {
       let currentY = e.touches[0].clientY;
-      if (startY - currentY > threshold) { hideIntro(); }
+      if (startY - currentY > threshold) hideIntro();
     }, false);
     let isMouseDown = false;
-    intro.addEventListener("mousedown", function(e) {
-      startY = e.clientY;
-      isMouseDown = true;
-    });
-    intro.addEventListener("mousemove", function(e) {
+    intro.addEventListener("mousedown", e => { startY = e.clientY; isMouseDown = true; });
+    intro.addEventListener("mousemove", e => {
       if (!isMouseDown) return;
       let currentY = e.clientY;
       if (startY - currentY > threshold) { hideIntro(); isMouseDown = false; }
     });
-    intro.addEventListener("mouseup", function() { isMouseDown = false; });
-    intro.addEventListener("mouseleave", function() { isMouseDown = false; });
-
+    intro.addEventListener("mouseup", () => { isMouseDown = false; });
+    intro.addEventListener("mouseleave", () => { isMouseDown = false; });
+    
     // Navegação entre telas
     const btnSocial = document.getElementById("btnSocial");
     const btnTeam = document.getElementById("btnTeam");
@@ -335,35 +321,35 @@
     const menuScreen = document.getElementById("menuScreen");
     const socialScreen = document.getElementById("socialScreen");
     const teamScreen = document.getElementById("teamScreen");
-
-    btnSocial.addEventListener("click", function() {
+    
+    btnSocial.addEventListener("click", () => {
       menuScreen.classList.remove("visible");
       menuScreen.classList.add("hidden");
       socialScreen.classList.remove("hidden");
       socialScreen.classList.add("visible");
     });
-    btnSocialBack.addEventListener("click", function() {
+    btnSocialBack.addEventListener("click", () => {
       socialScreen.classList.remove("visible");
       socialScreen.classList.add("hidden");
       menuScreen.classList.remove("hidden");
       menuScreen.classList.add("visible");
     });
-    btnTeam.addEventListener("click", function() {
+    btnTeam.addEventListener("click", () => {
       menuScreen.classList.remove("visible");
       menuScreen.classList.add("hidden");
       teamScreen.classList.remove("hidden");
       teamScreen.classList.add("visible");
     });
-    btnTeamBack.addEventListener("click", function() {
+    btnTeamBack.addEventListener("click", () => {
       teamScreen.classList.remove("visible");
       teamScreen.classList.add("hidden");
       menuScreen.classList.remove("hidden");
       menuScreen.classList.add("visible");
     });
-
+    
     // Simulação de envio do formulário
     const teamForm = document.getElementById("teamForm");
-    teamForm.addEventListener("submit", function(e) {
+    teamForm.addEventListener("submit", e => {
       e.preventDefault();
       alert("Formulário enviado com sucesso!");
       teamForm.reset();
