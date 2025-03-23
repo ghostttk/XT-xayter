@@ -122,6 +122,32 @@
       background-color: #555;
       transform: scale(1.02);
     }
+    /* Estilo para formulário (equipe) – sensação de luxo */
+    #teamForm {
+      display: flex;
+      flex-direction: column;
+      width: 320px;
+      gap: 10px;
+    }
+    #teamForm label {
+      color: #d4af37; /* dourado */
+      font-size: 1rem;
+    }
+    #teamForm input,
+    #teamForm select,
+    #teamForm textarea {
+      padding: 10px;
+      border: 1px solid #d4af37;
+      border-radius: 5px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    #teamForm input:focus,
+    #teamForm select:focus,
+    #teamForm textarea:focus {
+      outline: none;
+      border-color: #fff;
+    }
     /* Redes sociais */
     .social-link {
       display: block;
@@ -162,7 +188,7 @@
     <div id="menuScreen" class="screen visible">
       <h1>Bem-vindo à XT Community</h1>
       <button id="btnSocial" class="button">Nossas redes sociais</button>
-      <a href="https://forms.gle/wcfTiMh4q94tZb8fA" class="button" target="_blank">Entrar no time</a>
+      <button id="btnTeam" class="button">Entrar no time</button>
     </div>
     <!-- Tela de Redes Sociais -->
     <div id="socialScreen" class="screen hidden">
@@ -170,12 +196,43 @@
       <a href="https://www.twitch.tv/xt_xyter" class="social-link" target="_blank">Twitch</a>
       <a href="https://www.instagram.com/xt_xyter?igsh=MW5mczhhanQyejdtcg==" class="social-link" target="_blank">Instagram</a>
       <a href="https://www.tiktok.com/@xt.xyter?_t=ZM-8uqVIVxzuLd&_r=1" class="social-link" target="_blank">TikTok</a>
-      <button id="btnBack" class="button back-btn">Voltar</button>
+      <button id="btnSocialBack" class="button back-btn">Voltar</button>
+    </div>
+    <!-- Tela do Formulário de Equipe -->
+    <div id="teamScreen" class="screen hidden">
+      <h1>Entre no Time</h1>
+      <form id="teamForm">
+        <label for="name">Nome Completo:</label>
+        <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Seu email" required>
+        
+        <label for="age">Idade:</label>
+        <input type="number" id="age" name="age" placeholder="Sua idade" required>
+        
+        <label for="experience">Experiência em Jogos:</label>
+        <select id="experience" name="experience" required>
+          <option value="">Selecione</option>
+          <option value="iniciante">Iniciante</option>
+          <option value="intermediario">Intermediário</option>
+          <option value="avancado">Avançado</option>
+        </select>
+        
+        <label for="motivation">Motivação para entrar no time:</label>
+        <textarea id="motivation" name="motivation" rows="4" placeholder="Explique sua motivação" required></textarea>
+        
+        <label for="source">Como conheceu o XT Community?</label>
+        <input type="text" id="source" name="source" placeholder="Ex: indicação, redes sociais" required>
+        
+        <button type="submit" class="button">Enviar</button>
+      </form>
+      <button id="btnTeamBack" class="button back-btn">Voltar</button>
     </div>
   </div>
 
   <script>
-    // Configuração do efeito de neve
+    // Efeito de neve
     const canvas = document.getElementById("snow-canvas");
     const ctx = canvas.getContext("2d");
 
@@ -187,7 +244,7 @@
     resizeCanvas();
 
     const snowflakes = [];
-    const maxSnowflakes = 80; // Efeito sutil
+    const maxSnowflakes = 80; // efeito sutil
 
     for (let i = 0; i < maxSnowflakes; i++) {
       snowflakes.push({
@@ -234,13 +291,12 @@
     }
     animateSnow();
 
-    // Variáveis para detecção do swipe na tela de introdução
+    // Variáveis de navegação e detecção de swipe na tela de introdução
     let startY = 0;
     const threshold = 50;
     const intro = document.getElementById("intro");
     const main = document.getElementById("main");
 
-    // Função para ocultar a introdução e mostrar o conteúdo principal
     function hideIntro() {
       intro.style.transform = "translateY(-100%)";
       intro.style.opacity = "0";
@@ -251,58 +307,9 @@
       }, 800);
     }
 
-    // Detecção para dispositivos touch
     intro.addEventListener("touchstart", function(e) {
       startY = e.touches[0].clientY;
     }, false);
-
     intro.addEventListener("touchmove", function(e) {
       let currentY = e.touches[0].clientY;
-      if (startY - currentY > threshold) {
-        hideIntro();
-      }
-    }, false);
-
-    // Detecção para mouse
-    let isMouseDown = false;
-    intro.addEventListener("mousedown", function(e) {
-      startY = e.clientY;
-      isMouseDown = true;
-    });
-    intro.addEventListener("mousemove", function(e) {
-      if (!isMouseDown) return;
-      let currentY = e.clientY;
-      if (startY - currentY > threshold) {
-        hideIntro();
-        isMouseDown = false;
-      }
-    });
-    intro.addEventListener("mouseup", function() {
-      isMouseDown = false;
-    });
-    intro.addEventListener("mouseleave", function() {
-      isMouseDown = false;
-    });
-
-    // Lógica de navegação entre telas
-    const btnSocial = document.getElementById("btnSocial");
-    const btnBack = document.getElementById("btnBack");
-    const menuScreen = document.getElementById("menuScreen");
-    const socialScreen = document.getElementById("socialScreen");
-
-    btnSocial.addEventListener("click", function() {
-      menuScreen.classList.remove("visible");
-      menuScreen.classList.add("hidden");
-      socialScreen.classList.remove("hidden");
-      socialScreen.classList.add("visible");
-    });
-
-    btnBack.addEventListener("click", function() {
-      socialScreen.classList.remove("visible");
-      socialScreen.classList.add("hidden");
-      menuScreen.classList.remove("hidden");
-      menuScreen.classList.add("visible");
-    });
-  </script>
-</body>
-</html>
+      if (startY
