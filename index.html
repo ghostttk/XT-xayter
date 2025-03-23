@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XT Community</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ghostttk/XT-xayter/refs/heads/main/XT%20Community.png" type="image/png">
-  <!-- Usando a stack de fontes do sistema (similar à Apple) -->
+  <!-- Usando a stack de fontes do sistema para um visual clean -->
   <style>
     * {
       margin: 0;
@@ -18,17 +18,24 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
     }
-    /* Fundo minimalista e sofisticado */
+    /* Fundo minimalista: degradê de preto para vermelho escuro */
     .background {
-      background: linear-gradient(135deg, #0a0a0a, #1f1f2e);
+      background: linear-gradient(135deg, #000000, #330000);
     }
-    /* Canvas para efeito de círculos pulsantes */
+    /* Canvas para efeito minimalista de partículas */
     #effect-canvas {
       position: fixed;
       top: 0;
       left: 0;
       pointer-events: none;
       z-index: -1;
+    }
+    /* Geral - textos com letras pretas e contorno branco */
+    .outlined {
+      color: black;
+      -webkit-text-stroke: 1px white;
+      /* fallback para navegadores que não suportam */
+      text-shadow: 1px 1px 1px white;
     }
     /* Tela de introdução */
     #intro {
@@ -38,7 +45,6 @@
       width: 100%;
       height: 100%;
       background: inherit;
-      color: #00bcd4; /* azul elétrico */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -48,7 +54,7 @@
       transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
       touch-action: none;
     }
-    /* Seta para indicar swipe */
+    /* Seta para indicar o swipe (em vermelho) */
     #swipe-arrow {
       position: absolute;
       bottom: 20px;
@@ -58,16 +64,12 @@
       height: 0;
       border-left: 20px solid transparent;
       border-right: 20px solid transparent;
-      border-top: 30px solid #00bcd4;
+      border-top: 30px solid #ff0000;
       animation: bounce 1s infinite;
     }
     @keyframes bounce {
-      0%, 100% {
-        transform: translateX(-50%) translateY(0);
-      }
-      50% {
-        transform: translateX(-50%) translateY(-10px);
-      }
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
     }
     /* Área principal */
     #main {
@@ -102,8 +104,8 @@
     }
     h1 {
       margin-bottom: 40px;
-      color: #00bcd4;
     }
+    /* Botões com borda e texto outlined */
     .button {
       display: inline-block;
       width: 250px;
@@ -111,20 +113,24 @@
       margin: 10px 0;
       font-size: 1.2rem;
       text-align: center;
-      color: #00bcd4;
       background-color: transparent;
-      border: 2px solid #00bcd4;
+      border: 2px solid #ff0000;
       border-radius: 30px;
       text-decoration: none;
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s ease;
     }
+    .button.outlined {
+      color: black;
+      -webkit-text-stroke: 1px white;
+      text-shadow: 1px 1px 1px white;
+    }
     .button:hover {
-      background-color: #0097a7;
-      color: #0a0a0a;
+      background-color: #ff0000;
+      color: black;
       transform: scale(1.02);
     }
-    /* Formulário – estilo clean e sofisticado */
+    /* Formulário – visual clean e sofisticado */
     #teamForm {
       display: flex;
       flex-direction: column;
@@ -132,14 +138,14 @@
       gap: 10px;
     }
     #teamForm label {
-      color: #00bcd4;
+      color: #ff0000;
       font-size: 1rem;
     }
     #teamForm input,
     #teamForm select,
     #teamForm textarea {
       padding: 10px;
-      border: 1px solid #00bcd4;
+      border: 1px solid #ff0000;
       border-radius: 5px;
       background: #1a1a1a;
       color: #fff;
@@ -148,7 +154,7 @@
     #teamForm select:focus,
     #teamForm textarea:focus {
       outline: none;
-      border-color: #00bcd4;
+      border-color: #ff0000;
     }
     /* Redes sociais */
     .social-link {
@@ -176,11 +182,11 @@
   </style>
 </head>
 <body class="background">
-  <!-- Canvas para efeito de círculos pulsantes -->
+  <!-- Canvas para efeito minimalista de partículas -->
   <canvas id="effect-canvas"></canvas>
 
   <!-- Tela de introdução -->
-  <div id="intro">
+  <div id="intro" class="outlined">
     XT Community
     <div id="swipe-arrow"></div>
   </div>
@@ -189,21 +195,21 @@
   <div id="main">
     <!-- Tela de Menu -->
     <div id="menuScreen" class="screen visible">
-      <h1>Bem-vindo à XT Community</h1>
-      <button id="btnSocial" class="button">Nossas redes sociais</button>
-      <button id="btnTeam" class="button">Entrar no time</button>
+      <h1 class="outlined">Bem-vindo à XT Community</h1>
+      <button id="btnSocial" class="button outlined">Nossas redes sociais</button>
+      <button id="btnTeam" class="button outlined">Entrar no time</button>
     </div>
     <!-- Tela de Redes Sociais -->
     <div id="socialScreen" class="screen hidden">
-      <h1>Nossas Redes Sociais</h1>
+      <h1 class="outlined">Nossas Redes Sociais</h1>
       <a href="https://www.twitch.tv/xt_xyter" class="social-link" target="_blank">Twitch</a>
       <a href="https://www.instagram.com/xt_xyter?igsh=MW5mczhhanQyejdtcg==" class="social-link" target="_blank">Instagram</a>
       <a href="https://www.tiktok.com/@xt.xyter?_t=ZM-8uqVIVxzuLd&_r=1" class="social-link" target="_blank">TikTok</a>
-      <button id="btnSocialBack" class="button back-btn">Voltar</button>
+      <button id="btnSocialBack" class="button back-btn outlined">Voltar</button>
     </div>
     <!-- Tela do Formulário de Equipe -->
     <div id="teamScreen" class="screen hidden">
-      <h1>Entre no Time</h1>
+      <h1 class="outlined">Entre no Time</h1>
       <form id="teamForm">
         <label for="name">Nome Completo:</label>
         <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
@@ -228,14 +234,14 @@
         <label for="source">Como conheceu o XT Community?</label>
         <input type="text" id="source" name="source" placeholder="Ex: indicação, redes sociais" required>
         
-        <button type="submit" class="button">Enviar</button>
+        <button type="submit" class="button outlined">Enviar</button>
       </form>
-      <button id="btnTeamBack" class="button back-btn">Voltar</button>
+      <button id="btnTeamBack" class="button back-btn outlined">Voltar</button>
     </div>
   </div>
 
   <script>
-    // Efeito de círculos pulsantes
+    // Efeito minimalista: partículas vermelhas sutis
     const canvas = document.getElementById("effect-canvas");
     const ctx = canvas.getContext("2d");
 
@@ -246,54 +252,46 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // Cada círculo inicia com um tamanho pequeno e vai expandindo e se esvaindo
-    const circles = [];
-    const maxCircles = 40; // efeito sutil
+    const particles = [];
+    const maxParticles = 20;
 
-    for (let i = 0; i < maxCircles; i++) {
-      circles.push({
+    for (let i = 0; i < maxParticles; i++) {
+      particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 2,
-        maxRadius: Math.random() * 40 + 20,
-        speed: Math.random() * 0.5 + 0.2,
-        alpha: Math.random() * 0.5 + 0.5
+        radius: Math.random() * 2 + 1,
+        speedX: Math.random() * 0.3 - 0.15,
+        speedY: Math.random() * 0.3 - 0.15
       });
     }
 
-    function updateCircles() {
-      for (let circle of circles) {
-        circle.radius += circle.speed;
-        circle.alpha -= 0.005;
-        if (circle.radius >= circle.maxRadius || circle.alpha <= 0) {
-          circle.x = Math.random() * canvas.width;
-          circle.y = Math.random() * canvas.height;
-          circle.radius = Math.random() * 3 + 2;
-          circle.maxRadius = Math.random() * 40 + 20;
-          circle.speed = Math.random() * 0.5 + 0.2;
-          circle.alpha = Math.random() * 0.5 + 0.5;
-        }
+    function updateParticles() {
+      for (let p of particles) {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
       }
     }
 
-    function drawCircles() {
+    function drawParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let circle of circles) {
+      ctx.fillStyle = "#ff0000";
+      for (let p of particles) {
         ctx.beginPath();
-        ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,188,212,${circle.alpha})`; // azul elétrico com transparência
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    function animateCircles() {
-      updateCircles();
-      drawCircles();
-      requestAnimationFrame(animateCircles);
+    function animateParticles() {
+      updateParticles();
+      drawParticles();
+      requestAnimationFrame(animateParticles);
     }
-    animateCircles();
+    animateParticles();
 
-    // Detecção de swipe na tela de introdução
+    // Detecção do swipe na tela de introdução
     let startY = 0;
     const threshold = 50;
     const intro = document.getElementById("intro");
@@ -314,9 +312,7 @@
     }, false);
     intro.addEventListener("touchmove", function(e) {
       let currentY = e.touches[0].clientY;
-      if (startY - currentY > threshold) {
-        hideIntro();
-      }
+      if (startY - currentY > threshold) { hideIntro(); }
     }, false);
     let isMouseDown = false;
     intro.addEventListener("mousedown", function(e) {
@@ -326,17 +322,10 @@
     intro.addEventListener("mousemove", function(e) {
       if (!isMouseDown) return;
       let currentY = e.clientY;
-      if (startY - currentY > threshold) {
-        hideIntro();
-        isMouseDown = false;
-      }
+      if (startY - currentY > threshold) { hideIntro(); isMouseDown = false; }
     });
-    intro.addEventListener("mouseup", function() {
-      isMouseDown = false;
-    });
-    intro.addEventListener("mouseleave", function() {
-      isMouseDown = false;
-    });
+    intro.addEventListener("mouseup", function() { isMouseDown = false; });
+    intro.addEventListener("mouseleave", function() { isMouseDown = false; });
 
     // Navegação entre telas
     const btnSocial = document.getElementById("btnSocial");
