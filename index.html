@@ -312,4 +312,72 @@
     }, false);
     intro.addEventListener("touchmove", function(e) {
       let currentY = e.touches[0].clientY;
-      if (startY
+      if (startY - currentY > threshold) {
+        hideIntro();
+      }
+    }, false);
+    let isMouseDown = false;
+    intro.addEventListener("mousedown", function(e) {
+      startY = e.clientY;
+      isMouseDown = true;
+    });
+    intro.addEventListener("mousemove", function(e) {
+      if (!isMouseDown) return;
+      let currentY = e.clientY;
+      if (startY - currentY > threshold) {
+        hideIntro();
+        isMouseDown = false;
+      }
+    });
+    intro.addEventListener("mouseup", function() {
+      isMouseDown = false;
+    });
+    intro.addEventListener("mouseleave", function() {
+      isMouseDown = false;
+    });
+
+    // Navegação entre telas
+    const btnSocial = document.getElementById("btnSocial");
+    const btnTeam = document.getElementById("btnTeam");
+    const btnSocialBack = document.getElementById("btnSocialBack");
+    const btnTeamBack = document.getElementById("btnTeamBack");
+    const menuScreen = document.getElementById("menuScreen");
+    const socialScreen = document.getElementById("socialScreen");
+    const teamScreen = document.getElementById("teamScreen");
+
+    btnSocial.addEventListener("click", function() {
+      menuScreen.classList.remove("visible");
+      menuScreen.classList.add("hidden");
+      socialScreen.classList.remove("hidden");
+      socialScreen.classList.add("visible");
+    });
+    btnSocialBack.addEventListener("click", function() {
+      socialScreen.classList.remove("visible");
+      socialScreen.classList.add("hidden");
+      menuScreen.classList.remove("hidden");
+      menuScreen.classList.add("visible");
+    });
+    btnTeam.addEventListener("click", function() {
+      menuScreen.classList.remove("visible");
+      menuScreen.classList.add("hidden");
+      teamScreen.classList.remove("hidden");
+      teamScreen.classList.add("visible");
+    });
+    btnTeamBack.addEventListener("click", function() {
+      teamScreen.classList.remove("visible");
+      teamScreen.classList.add("hidden");
+      menuScreen.classList.remove("hidden");
+      menuScreen.classList.add("visible");
+    });
+
+    // Simulação de envio do formulário (aqui você pode adicionar lógica para processar os dados)
+    const teamForm = document.getElementById("teamForm");
+    teamForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Formulário enviado com sucesso!");
+      teamForm.reset();
+    });
+  </script>
+</body>
+</html>
+
