@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XT Community</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ghostttk/XT-xayter/refs/heads/main/XT%20Community.png" type="image/png">
-  <!-- Usando a stack de fontes do sistema para um visual clean (ex: San Francisco, Segoe UI, etc.) -->
+  <!-- Usando a stack de fontes do sistema para um visual clean -->
   <style>
     * {
       margin: 0;
@@ -30,6 +30,11 @@
       pointer-events: none;
       z-index: -1;
     }
+    /* Geral - textos com alinhamento central e espaçamentos */
+    h1, p {
+      text-align: center;
+      margin-bottom: 20px;
+    }
     /* Tela de introdução */
     #intro {
       position: fixed;
@@ -40,9 +45,9 @@
       background: inherit;
       color: #ff0000;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       font-size: 3rem;
       z-index: 1000;
       transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
@@ -70,7 +75,8 @@
       display: none;
       height: 100%;
       width: 100%;
-      overflow: hidden;
+      overflow-y: auto;
+      padding: 20px;
     }
     /* Telas internas */
     .screen {
@@ -85,6 +91,7 @@
       left: 0;
       background: inherit;
       transition: opacity 0.5s ease, transform 0.5s ease;
+      padding: 20px;
     }
     .hidden {
       opacity: 0;
@@ -99,13 +106,18 @@
     h1 {
       margin-bottom: 40px;
       color: #ff0000;
+      font-size: 2.5rem;
+    }
+    p {
+      color: #fff;
+      font-size: 1.2rem;
     }
     /* Botões padrão */
     .button {
       display: inline-block;
-      width: 250px;
+      width: 260px;
       padding: 15px 0;
-      margin: 10px 0;
+      margin: 12px 0;
       font-size: 1.2rem;
       text-align: center;
       color: #ff0000;
@@ -125,21 +137,23 @@
     #teamForm {
       display: flex;
       flex-direction: column;
-      width: 320px;
-      gap: 10px;
+      width: 350px;
+      gap: 15px;
+      margin-bottom: 20px;
     }
     #teamForm label {
       color: #ff0000;
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
     #teamForm input,
     #teamForm select,
     #teamForm textarea {
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ff0000;
       border-radius: 5px;
       background: #1a1a1a;
       color: #fff;
+      font-size: 1rem;
     }
     #teamForm input:focus,
     #teamForm select:focus,
@@ -150,15 +164,15 @@
     /* Redes Sociais – aparência aprimorada */
     .social-link {
       display: block;
-      width: 250px;
+      width: 260px;
       color: #ffffff;
       text-decoration: none;
-      font-size: 1rem;
-      padding: 12px 0;
+      font-size: 1.1rem;
+      padding: 14px 0;
       border-radius: 30px;
       background: linear-gradient(135deg, #ff0000, #990000);
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      margin: 8px 0;
+      margin: 10px 0;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .social-link:hover {
@@ -173,7 +187,7 @@
   </style>
 </head>
 <body class="background">
-  <!-- Canvas para efeito minimalista de partículas -->
+  <!-- Canvas para efeito minimalista de partículas vermelhas -->
   <canvas id="effect-canvas"></canvas>
   
   <!-- Tela de introdução -->
@@ -225,9 +239,16 @@
         <label for="source">Como conheceu o XT Community?</label>
         <input type="text" id="source" name="source" placeholder="Ex: indicação, redes sociais" required>
         
-        <button type="submit" class="button">Enviar</button>
+        <button type="submit" class="button">Concluir</button>
       </form>
       <button id="btnTeamBack" class="button back-btn">Voltar</button>
+    </div>
+    <!-- Tela de Conclusão do Formulário -->
+    <div id="conclusionScreen" class="screen hidden">
+      <h1>Formulário Concluído</h1>
+      <p>Clique no botão abaixo para entrar no chat.</p>
+      <p>Ao entrar, utilize o comando <strong>/teste2</strong>.</p>
+      <a href="https://discord.gg/QMWmsrvfMh" target="_blank" class="button">Entrar no Discord</a>
     </div>
   </div>
   
@@ -321,6 +342,7 @@
     const menuScreen = document.getElementById("menuScreen");
     const socialScreen = document.getElementById("socialScreen");
     const teamScreen = document.getElementById("teamScreen");
+    const conclusionScreen = document.getElementById("conclusionScreen");
     
     btnSocial.addEventListener("click", () => {
       menuScreen.classList.remove("visible");
@@ -347,12 +369,14 @@
       menuScreen.classList.add("visible");
     });
     
-    // Simulação de envio do formulário
+    // Processamento do formulário e exibição da tela de conclusão
     const teamForm = document.getElementById("teamForm");
     teamForm.addEventListener("submit", e => {
       e.preventDefault();
-      alert("Formulário enviado com sucesso!");
-      teamForm.reset();
+      teamScreen.classList.remove("visible");
+      teamScreen.classList.add("hidden");
+      conclusionScreen.classList.remove("hidden");
+      conclusionScreen.classList.add("visible");
     });
   </script>
 </body>
