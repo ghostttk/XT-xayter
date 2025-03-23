@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XT Community</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ghostttk/XT-xayter/refs/heads/main/XT%20Community.png" type="image/png">
-  <!-- Fonte elegante: Playfair Display -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Usando a stack de fontes do sistema (similar à Apple) -->
   <style>
     * {
       margin: 0;
@@ -16,15 +15,15 @@
     body, html {
       width: 100%;
       height: 100%;
-      font-family: 'Playfair Display', serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
     }
-    /* Fundo sofisticado compartilhado entre todas as telas */
+    /* Fundo minimalista e sofisticado */
     .background {
       background: linear-gradient(135deg, #0a0a0a, #1f1f2e);
     }
-    /* Canvas para efeito de neve (sutil) */
-    #snow-canvas {
+    /* Canvas para efeito de círculos pulsantes */
+    #effect-canvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -49,7 +48,7 @@
       transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
       touch-action: none;
     }
-    /* Seta para arrastar para cima */
+    /* Seta para indicar swipe */
     #swipe-arrow {
       position: absolute;
       bottom: 20px;
@@ -77,7 +76,7 @@
       width: 100%;
       overflow: hidden;
     }
-    /* Telas internas com fundo compartilhado */
+    /* Telas internas */
     .screen {
       width: 100%;
       height: 100%;
@@ -125,7 +124,7 @@
       color: #0a0a0a;
       transform: scale(1.02);
     }
-    /* Estilo para formulário (Equipe) – visual luxuoso */
+    /* Formulário – estilo clean e sofisticado */
     #teamForm {
       display: flex;
       flex-direction: column;
@@ -177,8 +176,8 @@
   </style>
 </head>
 <body class="background">
-  <!-- Canvas para efeito de neve -->
-  <canvas id="snow-canvas"></canvas>
+  <!-- Canvas para efeito de círculos pulsantes -->
+  <canvas id="effect-canvas"></canvas>
 
   <!-- Tela de introdução -->
   <div id="intro">
@@ -236,8 +235,8 @@
   </div>
 
   <script>
-    // Efeito de neve
-    const canvas = document.getElementById("snow-canvas");
+    // Efeito de círculos pulsantes
+    const canvas = document.getElementById("effect-canvas");
     const ctx = canvas.getContext("2d");
 
     function resizeCanvas() {
@@ -247,56 +246,54 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    const snowflakes = [];
-    const maxSnowflakes = 80; // efeito sutil
+    // Cada círculo inicia com um tamanho pequeno e vai expandindo e se esvaindo
+    const circles = [];
+    const maxCircles = 40; // efeito sutil
 
-    for (let i = 0; i < maxSnowflakes; i++) {
-      snowflakes.push({
+    for (let i = 0; i < maxCircles; i++) {
+      circles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 2 + 1,
-        speed: Math.random() * 0.5 + 0.5,
-        wind: Math.random() * 0.5 - 0.25
+        radius: Math.random() * 3 + 2,
+        maxRadius: Math.random() * 40 + 20,
+        speed: Math.random() * 0.5 + 0.2,
+        alpha: Math.random() * 0.5 + 0.5
       });
     }
 
-    function updateSnowflakes() {
-      for (let flake of snowflakes) {
-        flake.y += flake.speed;
-        flake.x += flake.wind;
-        if (flake.y > canvas.height) {
-          flake.y = -flake.radius;
-          flake.x = Math.random() * canvas.width;
-        }
-        if (flake.x > canvas.width) {
-          flake.x = 0;
-        }
-        if (flake.x < 0) {
-          flake.x = canvas.width;
+    function updateCircles() {
+      for (let circle of circles) {
+        circle.radius += circle.speed;
+        circle.alpha -= 0.005;
+        if (circle.radius >= circle.maxRadius || circle.alpha <= 0) {
+          circle.x = Math.random() * canvas.width;
+          circle.y = Math.random() * canvas.height;
+          circle.radius = Math.random() * 3 + 2;
+          circle.maxRadius = Math.random() * 40 + 20;
+          circle.speed = Math.random() * 0.5 + 0.2;
+          circle.alpha = Math.random() * 0.5 + 0.5;
         }
       }
     }
 
-    function drawSnowflakes() {
+    function drawCircles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Usando um tom azul sutil para os flocos
-      ctx.fillStyle = "rgba(0,188,212,0.3)";
-      ctx.beginPath();
-      for (let flake of snowflakes) {
-        ctx.moveTo(flake.x, flake.y);
-        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+      for (let circle of circles) {
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,188,212,${circle.alpha})`; // azul elétrico com transparência
+        ctx.fill();
       }
-      ctx.fill();
     }
 
-    function animateSnow() {
-      updateSnowflakes();
-      drawSnowflakes();
-      requestAnimationFrame(animateSnow);
+    function animateCircles() {
+      updateCircles();
+      drawCircles();
+      requestAnimationFrame(animateCircles);
     }
-    animateSnow();
+    animateCircles();
 
-    // Detecção do swipe na tela de introdução
+    // Detecção de swipe na tela de introdução
     let startY = 0;
     const threshold = 50;
     const intro = document.getElementById("intro");
@@ -375,7 +372,7 @@
       menuScreen.classList.add("visible");
     });
 
-    // Simulação de envio do formulário (adicione sua lógica de envio aqui)
+    // Simulação de envio do formulário
     const teamForm = document.getElementById("teamForm");
     teamForm.addEventListener("submit", function(e) {
       e.preventDefault();
